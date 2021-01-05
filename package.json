@@ -1,0 +1,27 @@
+{
+	"name": "employee-tracker",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"directories": {
+		"lib": "lib"
+	},
+	"scripts": {
+		"test": "jest",
+		"migrate": "sqlite3 db/election.db < db/schema.sql",
+		"seed": "sqlite3 db/election.db < db/seeds.sql",
+		"db": "sqlite3 db/election.db",
+		"start": "node server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/minnesotaNyst/employee-tracker.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/minnesotaNyst/employee-tracker/issues"
+	},
+	"homepage": "https://github.com/minnesotaNyst/employee-tracker#readme"
+}
