@@ -1,0 +1,32 @@
+INSERT INTO departments (department_name) VALUES ("Sales and Marketing");
+INSERT INTO departments (department_name) VALUES ("Legal");
+INSERT INTO departments (department_name) VALUES ("Engineering");
+INSERT INTO departments (department_name) VALUES ("Professional Services");
+INSERT INTO departments (department_name) VALUES ("Finance");
+INSERT INTO departments (department_name) VALUES ("Human Resources");
+
+INSERT INTO roles (title, salary, department_id) VALUES ("Data Solutions Sales Manager", 100000, 1);
+INSERT INTO roles (title, salary, department_id) VALUES ("Sales Representative", 80000, 1);
+INSERT INTO roles (title, salary, department_id) VALUES ("Lead Engineer", 150000, 3);
+INSERT INTO roles (title, salary, department_id) VALUES ("Front End Developer", 150000, 3);
+INSERT INTO roles (title, salary, department_id) VALUES ("Software Engineer", 120000, 3);
+INSERT INTO roles (title, salary, department_id) VALUES ("Accountant", 125000, 5);
+INSERT INTO roles (title, salary, department_id) VALUES ("Legal Team Lead", 250000, 2);
+INSERT INTO roles (title, salary, department_id) VALUES ("Lawyer", 190000, 2);
+INSERT INTO roles (title, salary, department_id) VALUES ("Project Manager", 90000, 4);
+INSERT INTO roles (title, salary, department_id) VALUES ("Business Partner", 75000, 6);
+
+INSERT INTO employees (first_name, last_name, roles_id) VALUES ("William", "Pearson", 4); 
+INSERT INTO employees (first_name, last_name, roles_id) VALUES ("Nathan", "Potts", 8);
+INSERT INTO employees (first_name, last_name, roles_id) VALUES ("Jake", "Nystrom", 2);
+INSERT INTO employees (first_name, last_name, roles_id) VALUES ("James", "Ross", 4);   
+INSERT INTO employees (first_name, last_name, roles_id) VALUES ("Sam", "Wehri", 5);   
+INSERT INTO employees (first_name, last_name, roles_id) VALUES ("Kendal", "Toole", 9);   
+INSERT INTO employees (first_name, last_name, roles_id) VALUES ("Emma", "Lovewell", 10);   
+INSERT INTO employees (first_name, last_name, roles_id) VALUES ("Ben", "Aldis", 8);   
+INSERT INTO employees (first_name, last_name, roles_id) VALUES ("Kris", "Ruhl", 6);   
+INSERT INTO employees (first_name, last_name, roles_id) VALUES ("Beef", "Johnson", 5);   
+INSERT INTO employees (first_name, last_name, roles_id) VALUES ("Jordan", "Speith", 4);   
+INSERT INTO employees (first_name, last_name, roles_id, manager_id) VALUES ("Tony", "Finau", 3, 3);   
+INSERT INTO employees (first_name, last_name, roles_id, manager_id) VALUES ("Kevin", "Kisner", 1, 1);   
+INSERT INTO employees (first_name, last_name, roles_id, manager_id) VALUES ("Julie", "Thompson", 7, 2);   

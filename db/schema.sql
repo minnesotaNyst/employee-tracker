@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS roles(
     title VARCHAR(30) NOT NULL,
     salary DECIMAL(8,2),
     department_id INT NOT NULL,
-    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES departments(department_id)
+    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES departments(department_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS employees(
@@ -21,6 +21,6 @@ CREATE TABLE IF NOT EXISTS employees(
     last_name VARCHAR(30) NOT NULL,
     roles_id INT NOT NULL,
     manager_id INT,
-    CONSTRAINT fk_role FOREIGN KEY (roles_id) REFERENCES roles(roles_id),
-    CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employees(emp_id)
+    CONSTRAINT fk_role FOREIGN KEY (roles_id) REFERENCES roles(roles_id) ON DELETE CASCADE,
+    CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employees(emp_id) ON DELETE SET NULL
 );
