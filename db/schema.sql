@@ -14,13 +14,15 @@ CREATE TABLE IF NOT EXISTS roles(
     title VARCHAR(30) NOT NULL,
     -- the DECIMAL data type references the number of digits and how many can be a decimal place
     salary DECIMAL(8,2),
+    --! department_id needs to be a foreign key to the dpeartments table
     department_id INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS employees(
-   id INT AUTO_INCREMENT PRIMARY KEY,
-   first_name VARCHAR(30) NOT NULL,
-   last_name VARCHAR(30) NOT NULL,
-   role_id INT NOT NULL,
-   manager_id INT NOT NULL
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(30) NOT NULL,
+    last_name VARCHAR(30) NOT NULL,
+    --! role_id and manager_id need to be foreign keys to the roles table   
+    role_id INT NOT NULL,
+    manager_id INT NOT NULL
 );
