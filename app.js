@@ -2,6 +2,7 @@ const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
 const menu = require('./assets/js/menu');
+const dept = require('./assets/js/addDepartment');
 // const viewAllDepartments = require('./assets/queries/departments');
 
 // create the connection to database
@@ -28,15 +29,15 @@ connection.connect(err => {
 async function startApp() {
 	console.log('\n** Options Menu **\n');
 
-	const answers = await inquirer.prompt(menu);
+	let answer = await inquirer.prompt(menu);
 	// console.log(answers);
 
 	// use a switch statement to determine which function to call based on the response (answer)
-	switch (answers.options) {
+	switch (answer.options) {
 		case 'View All Departments':
 			viewAllDepartments();
-            break;
-            case 'View All Roles':
+			break;
+		case 'View All Roles':
 			viewAllRoles();
 			break;
 		case 'View All Employees':
@@ -45,7 +46,7 @@ async function startApp() {
 		case 'Add a Department':
 			addDepartment();
 			break;
-		
+
 		case 'Exit Application':
 			// close the database connection
 			connection.end(err => {
@@ -116,18 +117,17 @@ function viewAllEmployees() {
 }
 
 // execute the add a department function to
-function addDepartment() {
-    // if the end user chooses to add a department, we need to ask them what the name of the department is...
-    inquirer.prompt()
+async function addDepartment() {
+	// if the end user chooses to add a department, we need to ask them what the name of the department is...
+	let answer = await inquirer.prompt(dept);
 	// this is a variable assigned to the query that will run against the database that a connection has been established between
 	// modify this query to modify the results, but also update the queries.sql file to ensure ease of access to all queries used
-	const sql =
-		'';
-	connection.query(sql, [], (err, res) => {
+	let sql = 'INSERT INTO departments (department_name) VALUES (?)';
+	let placeholder = answer.deptName;
+	connection.query(sql, placeholder, (err, res) => {
 		// console.log('got here'); // use this if you run into an error and need to see if the application is making it to this point in the code
 		if (err) throw err;
-		console.log('\n** Employees **\n');
-		console.table(res); // results contains rows returned by server
+		console.log(`${answer.deptName} added to Departments!`);
 		// console.log(fields); // fields contains extra meta data about results, if available
 
 		// display the menu options again
