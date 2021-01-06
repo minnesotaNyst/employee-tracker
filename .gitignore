@@ -109,3 +109,7 @@ package.json
 
 #SQL
 queries.sql
+
+#Misc - Undo or remove later
+departments.js
+connection.js
