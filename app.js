@@ -2,7 +2,6 @@ const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
 const menu = require('./assets/js/menu');
-const dept = require('./assets/js/addDepartment');
 // const { establishConnection } = require('./assets/js/connection'); //do not use this right now, working on a way to reduce the cloudiness of this file
 // const viewAllDepartments = require('./assets/queries/departments');
 
@@ -123,25 +122,14 @@ function viewAllEmployees() {
 // execute the add a department function
 async function addDepartment() {
 	// if the end user chooses to add a department, we need to ask them what the name of the department is...
-	let answer = await inquirer.prompt(dept);
-	// this is a variable assigned to the query that will run against the database that a connection has been established between
-	// modify this query to modify the results, but also update the queries.sql file to ensure ease of access to all queries used
-	let sql = 'INSERT INTO departments (department_name) VALUES (?)';
-	connection.query(sql, answer.deptName, (err, res) => {
-		// console.log('got here'); // use this if you run into an error and need to see if the application is making it to this point in the code
-		if (err) throw err;
-		console.log(`${answer.deptName} added to Departments!`);
-		// console.log(fields); // fields contains extra meta data about results, if available
-
-		// display the menu options again
-		startApp();
-	});
-}
-
-// execute the add a role function
-async function addRole() {
-	// if the end user chooses to add a department, we need to ask them what the name of the department is...
-	let answer = await inquirer.prompt(dept);
+	let qPrompt = [
+		{
+			type: 'input',
+			message: 'Department Name: ',
+			name: 'deptName'
+		}
+	];
+	const answer = await inquirer.prompt(qPrompt);
 	// this is a variable assigned to the query that will run against the database that a connection has been established between
 	// modify this query to modify the results, but also update the queries.sql file to ensure ease of access to all queries used
 	let sql = 'INSERT INTO departments (department_name) VALUES (?)';
