@@ -4,7 +4,7 @@ const inquirer = require('inquirer');
 const cTable = require('console.table');
 const menu = require('./assets/js/menu');
 
-// creating an object with connection properties to use for mysql2 and mysql2/promise
+// creating an object with connection properties
 const conProperties = {
 	host: 'localhost',
 	user: 'user',
@@ -15,66 +15,51 @@ const conProperties = {
 // create the connection to database
 const connection = mysql.createConnection(conProperties);
 
-// reference: https://github.com/mysqljs/mysql#establishing-connections
 connection.connect(err => {
 	if (err) throw err;
 	// start the application from here
 	startApp();
 });
 
-// here we will start the application by executing the called funtion from the established connection above
-/* look into MySQL2's documentation (Using Promise Wrapper) to make your queries asynchronous - https://www.npmjs.com/package/mysql2#api-and-configuration
-----------------------  ^^reccomendation comes from the challenge^^ ---------------------- */
+// let us get the party started...
 function startApp() {
 	console.log('\n** Options Menu **\n');
 
-	inquirer
-		.prompt([
-			{
-				type: 'list',
-				name: 'options',
-				message: 'What would you like to accomplish?',
-				choices: [
-					'View All Departments',
-					'View All Roles',
-					'View All Employees',
-					'Add a Department',
-					'Add a Role',
-					'Add an Employee',
-					'Update Employee Role',
-					'Exit Application'
-				]
-			}
-		])
-		.then(answers => {
-			// console.log(answers);
+	inquirer.prompt(menu).then(answers => {
+		// console.log(answers);
 
-			// use a switch statement to determine which function to call based on the response (answer)
-			switch (answers.options) {
-				case 'View All Departments':
-					viewAllDepartments();
-					break;
-				case 'View All Roles':
-					viewAllRoles();
-					break;
-				case 'View All Employees':
-					viewAllEmployees();
-					break;
-				case 'Add a Department':
-					addDepartment();
-					break;
-				case 'Add a Role':
-					addRole();
-					break;
+		// use a switch statement to determine which function to call based on the response (answer)
+		switch (answers.options) {
+			case 'View All Departments':
+				viewAllDepartments();
+				break;
+			case 'View All Roles':
+				viewAllRoles();
+				break;
+			case 'View All Employees':
+				viewAllEmployees();
+				break;
+			case 'Add a Department':
+				addDepartment();
+				break;
+			case 'Add a Role':
+				addRole();
+				break;
+			case 'Add an Employee':
+				addEmployee();
+				break;
+			case 'Update Employee Role':
+				updateEmployee();
+				break;
 
-				case 'Exit Application':
-					// close the database connection
-					connection.end(err => {
-						if (err) throw err;
-						console.log('See you again soon...');
-					});
-			}
-		});
+			case 'Exit Application':
+				// close the database connection
+				connection.end(err => {
+					if (err) throw err;
+					console.log('See you again soon...');
+				});
+		}
+	});
 }
 
 // execute the view all departments function
@@ -142,7 +127,15 @@ function addDepartment() {
 			{
 				type: 'input',
 				message: 'Department Name: ',
-				name: 'deptName'
+				name: 'deptName',
+				validate: function (input) {
+					if (input === '') {
+						console.log('Department Name Required');
+						return false;
+					} else {
+						return true;
+					}
+				}
 			}
 		])
 		.then(answer => {
@@ -166,23 +159,11 @@ function addDepartment() {
 // WHEN I choose to add a role
 // THEN I am prompted to enter the name, salary, and department for the role and that role is added to the database
 function addRole() {
-	// want will want to create an array where the names of the departments are stored so we can reference the options in the inquirer prompt
-	let deptChoices = [];
-
-	// since we will be
-	promise
-		.createConnection(conProperties)
-		.then(db => {
-			return Promise.all([db.query('SELECT * FROM departments')]);
-		})
-		.then(([dept]) => {
-			// !need to make this a foreach loop, might be more clean
-			for (var i = 0; i < dept.length; i++) {
-				deptChoices.push(dept[i].department_name);
-			}
-			return Promise.all([dept]);
-		})
-		.then(([dept]) => {
+	connection.query(
+		'SELECT department_id AS ID, department_name AS Department from departments;',
+		(err, res) => {
+			console.log('\n** Department Options **\n');
+			console.table(res);
 			inquirer
 				.prompt([
 					{
@@ -209,40 +190,123 @@ function addRole() {
 							return false;
 						}
 					},
+					// !need to figure out how to dynamically generate this list for the end user to select from...
 					{
-						type: 'list',
-						name: 'department',
-						message: 'Department: ',
-						choices: deptChoices
+						name: 'deptId',
+						type: 'number',
+						message: 'Departmend ID:'
 					}
 				])
 				.then(answers => {
-					// Set empty variable to insert the Department ID
-					let departmentID;
-
-					// Assign a department ID based on the user input choice
-					for (var i = 0; i < dept.length; i++) {
-						if (answers.department == dept[i].department_name) {
-							departmentID = dept[i].id;
-						}
-					}
-
 					connection.query(
-						'INSERT INTO roles (title, salary, department_id) VALUES (?,?,?);',
+						'INSERT INTO roles SET ?',
 						{
 							title: answers.role,
 							salary: answers.salary,
-							department_id: departmentID
+							department_id: answers.deptId
 						},
-						function (err) {
-							if (err) throw err;
-							console.log(
-								`${answers.role} with a salary of $${answers.salary} added successfully!`
-							);
-
-							startAPP();
+						function () {
+							console.log(`Role ${answers.role} was created successfully!`);
+							// displays table of roles
+							viewAllRoles();
 						}
 					);
 				});
-		});
+		}
+	);
+}
+
+// execute the fuction to add an employee
+// WHEN I choose to add an employee
+// THEN I am prompted to enter the employee’s first name, last name, role, and manager and that employee is added to the database
+function addEmployee() {
+	console.log('\n** Enter New Employee **\n');
+	connection.query(
+		'SELECT roles_id as ID, title as ROLE from roles;',
+		(err, res) => {
+			console.table(res);
+			inquirer
+				.prompt([
+					{
+						type: 'input',
+						name: 'fName',
+						message: "What is the employee's first name?"
+					},
+					{
+						type: 'input',
+						name: 'lName',
+						message: "What is the employee's last name?"
+					},
+					{
+						type: 'input',
+						name: 'roleId',
+						message: 'Which role does this employee belong to?'
+					},
+					{
+						type: 'input',
+						name: 'managerId',
+						// !this should be dynamically generated, in addition to split into a validated prompt where they can response with yes/no
+						// !i am being lazy here, short on time and will need to refactor this at another point in time
+						message:
+							"Does this employee have a manager? If so, then input Manager's Employee ID. If not, press 'Enter'!"
+					}
+				])
+				.then(function (answers) {
+					var data = {
+						first_name: answers.fName,
+						last_name: answers.lName,
+						roles_id: answers.roleId
+					};
+					if (answers.managerId) {
+						data.manager_id = answers.managerId;
+					}
+					connection.query(
+						'INSERT INTO employees SET ?',
+						data,
+						function (err, res) {
+							console.log('error:' + err);
+							console.log(
+								`${answers.fName} ${answers.lName}'s profile was created successfully!`
+							);
+							// displays the table of employees.
+							viewAllEmployees();
+						}
+					);
+				});
+		}
+	);
+}
+
+//execute the function to update an employee role
+// WHEN I choose to update an employee role
+// THEN I am prompted to select an employee to update and their new role and this information is updated in the database
+function updateEmployee() {
+	connection.query('SELECT * FROM employees', (err, res) => {
+		console.log('\n** Change Employee Role **\n');
+		console.table(res);
+
+		inquirer
+			.prompt([
+				{
+					type: 'number',
+					name: 'eId',
+					message: 'Please input the id of the employee you want to update.'
+				},
+				{
+					type: 'number',
+					name: 'eRole',
+					message: "Please update employee's role by selecting a new role ID."
+				}
+			])
+			.then(answers => {
+				connection.query(
+					'UPDATE employees SET ? WHERE ?',
+					[{ roles_id: answers.eRole }, { emp_id: answers.eId }],
+					function (err, res) {
+						console.log('error:' + err);
+						viewAllEmployees();
+					}
+				);
+			});
+	});
 }
