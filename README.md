@@ -6,6 +6,10 @@ Developers are often tasked with creating interfaces that make it easy for non-d
 
 This application allows the end user to modify an employee tracking database. They will be able to view all of the tables in the database through the use of a CLI. In addition to viewing, the end user will be able to add roles, departmetns and employees to the database.
 
+## Wath Me
+
+https://drive.google.com/file/d/17bbADpxbJgVDJR0O7x1cnx3mBeHmocf9/view
+
 ### Table of Contents
 
 - [User Story](#user)
