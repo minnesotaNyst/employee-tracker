@@ -8,7 +8,6 @@ function startApp() {
 	console.log('\n** Options Menu **\n');
 
 	inquirer.prompt(menu).then(answers => {
-
 		// use a switch statement to determine which function to call based on the response (answer)
 		switch (answers.options) {
 			case 'View All Departments':
@@ -41,11 +40,9 @@ function startApp() {
 				break;
 
 			case 'Exit Application':
-				// close the database connection
-				connection.end(err => {
-					if (err) throw err;
-					console.log('See you again soon...');
-				});
+				ops.endApp();
+				break;
+			// close the database connection
 		}
 	});
 }

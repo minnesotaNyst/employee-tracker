@@ -253,6 +253,13 @@ function updateEmployee() {
 	});
 }
 
+function endApp() {
+	connection.end(err => {
+		if (err) throw err;
+		console.log('See you again soon...');
+	});
+}
+
 module.exports = {
 	viewAllDepartments: viewAllDepartments,
 	viewAllRoles: viewAllRoles,
@@ -260,5 +267,6 @@ module.exports = {
 	addDepartment: addDepartment,
 	addRole: addRole,
 	addEmployee: addEmployee,
-	updateEmployee: updateEmployee
+	updateEmployee: updateEmployee,
+	endApp: endApp
 };
