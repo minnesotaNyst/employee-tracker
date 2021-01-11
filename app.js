@@ -24,19 +24,19 @@ function startApp() {
 				break;
 			case 'Add a Department':
 				ops.addDepartment();
-				viewAllDepartments();
+				ops.viewAllDepartments();
 				break;
 			case 'Add a Role':
 				ops.addRole();
-				viewAllRoles();
+				ops.viewAllRoles();
 				break;
 			case 'Add an Employee':
 				ops.addEmployee();
-				viewAllEmployees();
+				ops.viewAllEmployees();
 				break;
 			case 'Update Employee Role':
 				ops.updateEmployee();
-				viewAllEmployees();
+				ops.viewAllEmployees();
 				break;
 
 			case 'Exit Application':
