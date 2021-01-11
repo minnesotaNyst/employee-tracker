@@ -8,7 +8,7 @@ This application allows the end user to modify an employee tracking database. Th
 
 ### Table of Contents
 
-- [Usage](#user)
+- [User Story](#user)
 - [Acceptance](#acceptance)
 - [NPM](#npm)
 - [Contributing](#contributing)
@@ -54,6 +54,7 @@ THEN I am prompted to select an employee to update and their new role and this i
 
 - JavaScript
 - Node.js
+- MySQL
 
 ## Contributing
 
@@ -70,3 +71,8 @@ Today, as a motivated and goal oriented individual I embrace challenges, strive 
 ## Screenshot
 
 ![deployed screenshot](./assets/images/employee-tracker.png)
+
+## TODO
+
+- More validations surrounding the prompts
+- Dynamically generating lists for the prompts
