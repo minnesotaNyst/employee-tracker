@@ -66,7 +66,7 @@ Jullian Gillis
 
 ## Questions
 
-Thanks for looking at my Note Taker Applicaion, my name is Jake Nystrom! If you would like to reach me, feel free to write to jwm.nystrom@gmail.com. I will look forward to hearing from you!
+Thanks for looking at my Employee Tracker Applicaion, my name is Jake Nystrom! If you would like to reach me, feel free to write to jwm.nystrom@gmail.com. I will look forward to hearing from you!
 
 ## About the Author
 
